@@ -1,2 +1,2 @@
 ﻿# Python--backend-
-Izrada backend aplaikaciju usluge čišćenja TRIORIO za potrebe kolegija RASPODJELJENI SUSTAVI
+Izrada backend aplikacije usluge čišćenja TRIORIO za potrebe kolegija RASPODJELJENI SUSTAVI
