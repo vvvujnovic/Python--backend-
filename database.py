@@ -1,22 +1,45 @@
-
-import pymongo  
 from pymongo import MongoClient
 
+def connect_to_mongodb():
+    # URI za povezivanje s lokalnim MongoDB poslužiteljem
+    uri = "mongodb://localhost:27017/"
+
+    try:
+        # Povezivanje s MongoDB poslužiteljem
+        client = MongoClient(uri)
+        
+        # Provjera uspješne veze slanjem pinga
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+        
+        return client
+    except Exception as e:
+        print(e)
+        return None
+
 # Uspostavljanje veze s MongoDB bazom podataka
-client = MongoClient('mongodb://localhost:27017/')
+client = connect_to_mongodb()
 
-# Odaberite bazu podataka
-db = client['uslugebazepodataka ']
+if client:
+    # Odaberite bazu podataka
+    db = client['uslugebazepodataka']
 
-# Dobivanje kolekcije
-collection = db['usluge']
+    # Dobivanje kolekcije
+    collection = db['usluge']
 
-# Dodavanje dokumenta
-collection.insert_one({'key': 'value'})
+    # Dodavanje dokumenta
+    collection.insert_one({'key': 'value'})
 
-# Preuzimanje dokumenata
-documents = collection.find()
+    # Preuzimanje dokumenata
+    documents = collection.find()
 
-# Ispis svih dokumenata
-for doc in documents:
-    print(doc)
+    # Ispis svih dokumenata
+    for doc in documents:
+        print(doc)
+
+
+
+
+
+
+
