@@ -2,7 +2,7 @@ import re
 from fastapi import APIRouter, HTTPException, Depends, Body
 from fastapi.security import HTTPBasicCredentials
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr, constr, root_validator
+from pydantic import BaseModel, EmailStr, constr, validator
 from bson import ObjectId
 from database import collection
 from security import authenticate
@@ -14,20 +14,20 @@ class Zahtjev(BaseModel):
     KategorijaUsluga: constr(min_length=1)
     vrstaCiscenja: constr(min_length=1)
     opis: constr(min_length=1)
-    datum: str  # mijenjamo u običan str
-    vrijeme: str  # mijenjamo u običan str
+    datum: str
+    vrijeme: str
 
-    @root_validator
-    def validate_format(cls, values):
-        datum = values.get("datum")
-        vrijeme = values.get("vrijeme")
-        datum_regex = r"\d{4}-\d{2}-\d{2}"
-        vrijeme_regex = r"\d{2}:\d{2}"
-        if not re.match(datum_regex, datum):
+    @validator("datum")
+    def validate_datum(cls, v):
+        if not re.match(r"\d{4}-\d{2}-\d{2}", v):
             raise ValueError("Datum nije u formatu YYYY-MM-DD")
-        if not re.match(vrijeme_regex, vrijeme):
+        return v
+
+    @validator("vrijeme")
+    def validate_vrijeme(cls, v):
+        if not re.match(r"\d{2}:\d{2}", v):
             raise ValueError("Vrijeme nije u formatu HH:MM")
-        return values
+        return v
 
 class UpdateZahtjev(BaseModel):
     KategorijaUsluga: Optional[str] = None
@@ -73,3 +73,4 @@ async def delete_zahtjev(zahtjev_id: str):
         return {"message": "Zahtjev uspješno obrisan"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
