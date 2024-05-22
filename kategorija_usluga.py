@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+import re
+from fastapi import APIRouter, HTTPException, Depends, Body
 from fastapi.security import HTTPBasicCredentials
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel, EmailStr, constr, root_validator
 from bson import ObjectId
 from database import collection
 from security import authenticate
@@ -13,8 +14,20 @@ class Zahtjev(BaseModel):
     KategorijaUsluga: constr(min_length=1)
     vrstaCiscenja: constr(min_length=1)
     opis: constr(min_length=1)
-    datum: constr(regex=r"\d{4}-\d{2}-\d{2}")  # Očekuje format 'YYYY-MM-DD'
-    vrijeme: constr(regex=r"\d{2}:\d{2}")  # Očekuje format 'HH:MM'
+    datum: str  # mijenjamo u običan str
+    vrijeme: str  # mijenjamo u običan str
+
+    @root_validator
+    def validate_format(cls, values):
+        datum = values.get("datum")
+        vrijeme = values.get("vrijeme")
+        datum_regex = r"\d{4}-\d{2}-\d{2}"
+        vrijeme_regex = r"\d{2}:\d{2}"
+        if not re.match(datum_regex, datum):
+            raise ValueError("Datum nije u formatu YYYY-MM-DD")
+        if not re.match(vrijeme_regex, vrijeme):
+            raise ValueError("Vrijeme nije u formatu HH:MM")
+        return values
 
 class UpdateZahtjev(BaseModel):
     KategorijaUsluga: Optional[str] = None
