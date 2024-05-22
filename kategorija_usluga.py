@@ -1,4 +1,3 @@
-import re
 from fastapi import APIRouter, HTTPException, Depends, Body
 from fastapi.security import HTTPBasicCredentials
 from typing import List, Optional
@@ -53,6 +52,16 @@ async def get_zahtjevi():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/zahtjevi/{korisnikEmail}", response_model=List[Zahtjev])
+async def get_zahtjevi_po_emailu(korisnikEmail: str):
+    try:
+        zahtjevi = list(collection.find({"korisnikEmail": korisnikEmail}, {'_id': 0}))
+        if not zahtjevi:
+            raise HTTPException(status_code=404, detail="Zahtjevi nisu pronađeni")
+        return zahtjevi
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.put("/zahtjevi/{zahtjev_id}")
 async def update_zahtjev(zahtjev_id: str, zahtjev: UpdateZahtjev):
     try:
@@ -73,4 +82,5 @@ async def delete_zahtjev(zahtjev_id: str):
         return {"message": "Zahtjev uspješno obrisan"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
