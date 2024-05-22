@@ -1,3 +1,4 @@
+import re
 from fastapi import APIRouter, HTTPException, Depends, Body
 from fastapi.security import HTTPBasicCredentials
 from typing import List, Optional
@@ -15,6 +16,7 @@ class Zahtjev(BaseModel):
     opis: constr(min_length=1)
     datum: str
     vrijeme: str
+    komentar: Optional[str] = None  
 
     @validator("datum")
     def validate_datum(cls, v):
@@ -63,9 +65,14 @@ async def get_zahtjevi_po_emailu(korisnikEmail: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.put("/zahtjevi/{zahtjev_id}")
-async def update_zahtjev(zahtjev_id: str, zahtjev: UpdateZahtjev):
+async def update_zahtjev(zahtjev_id: str, zahtjev: UpdateZahtjev, komentar: Optional[str] = None):
     try:
-        updated_zahtjev = {k: v for k, v in zahtjev.dict().items() if v is not None}
+        # Ažurirajte komentar ako je poslan
+        if komentar:
+            updated_zahtjev = zahtjev.dict()
+            updated_zahtjev["komentar"] = komentar
+        else:
+            updated_zahtjev = {k: v for k, v in zahtjev.dict().items() if v is not None}
         result = collection.update_one({"_id": ObjectId(zahtjev_id)}, {"$set": updated_zahtjev})
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Zahtjev nije pronađen")
@@ -82,5 +89,7 @@ async def delete_zahtjev(zahtjev_id: str):
         return {"message": "Zahtjev uspješno obrisan"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 
 
