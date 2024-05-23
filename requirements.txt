@@ -1,2 +1,22 @@
-fasapi== instaliran
+fastapi == version "0.111.0"
+MongoDb == version "7.0.9",
+pymongo == version  "4.7.2"
+uvicorn == version  "0.29.0"
 lochalhost == http://127.0.0.1:8000
+
+POST, PUT : http://127.0.0.1:8000/dodaj-zahtjev
+{
+    "korisnikEmail": "",
+    "KategorijaUsluga": "",
+    "vrstaCiscenja": "",
+    "opis": "",
+    "datum": "",
+    "vrijeme": "",
+    "komentar": ""
+}
+
+
+GET : http://127.0.0.1:8000/zahtjevi - dohvaćanje zahtjeva 
+
+DELETE : http://127.0.0.1:8000/zahtjevi / {zahtjevi_id}
+

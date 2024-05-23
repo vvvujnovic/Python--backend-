@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from kategorija_usluga import router as kategorija_usluga_router
+from zahtjev_za_uslugom import router as zahtjev_za_uslugom_router
 
 app = FastAPI()
 
@@ -13,8 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Uključivanje router-a za kategoriju usluga
-app.include_router(kategorija_usluga_router)
+app.include_router(zahtjev_za_uslugom_router)
 
 if __name__ == "__main__":
     import uvicorn
