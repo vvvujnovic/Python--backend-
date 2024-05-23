@@ -7,7 +7,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = "admin"
     correct_password = "vedro"
     
-    print("DEBUG: Provera autentikacije...")
+    print("DEBUG: Provjera autentikacije...")
     
     if credentials.username != correct_username or credentials.password != correct_password:
         print("DEBUG: Neispravni kredencijali.")
@@ -17,4 +17,4 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
     
-    print("DEBUG: Autentikacija uspešna.")
+    print("DEBUG: Autentikacija uspješna.")
