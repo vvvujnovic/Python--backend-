@@ -10,7 +10,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
     print("DEBUG: Provjera autentikacije...")
     
     if credentials.username != correct_username or credentials.password != correct_password:
-        print("DEBUG: Neispravni kredencijali.")
+        print("DEBUG: Neispravni uneseni podaci.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Neispravno korisničko ime ili lozinka",
