@@ -17,10 +17,16 @@ client = connect_to_mongodb()
 if client:
     # Odaberite bazu podataka
     db = client['uslugebazepodataka']
-    # Dobivanje kolekcije
+    # Naziv kolekcija
     collection = db['usluge']
+    ugovor_collection = db['ugovori']  
+    usluga_collection = db['usluge']  
+
 else:
     collection = None
+    ugovor_collection = None
+    usluga_collection = None
+
 
 
 
