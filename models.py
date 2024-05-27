@@ -26,6 +26,7 @@ def validate_vrijeme(cls, v):
 class Usluga(BaseModel):
     naziv_usluge: str
     cijena_usluge: float
+    valuta: str = "EUR"
     opis: Optional[str] = None
 
     @validator("cijena_usluge")
@@ -44,6 +45,7 @@ class Stavka(BaseModel):
     naziv_usluge: str
     kolicina: int
     cijena_usluge: float
+    valuta: str = "EUR"
     datum_dostupnosti_usluge: datetime
 
 @validator("datum_dostupnosti_usluge", pre=True)
@@ -59,6 +61,7 @@ class Ugovor(BaseModel):
     datum_ugovora: datetime
     stavke: List[Stavka]
     ukupna_cijena: float
+    valuta: str = "EUR"
 
 @validator("datum_ugovora", pre=True)
 def parse_datum_ugovora(cls, value):
