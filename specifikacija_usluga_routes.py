@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("/dodaj-uslugu")
 async def dodaj_uslugu(usluga: Usluga, credentials: HTTPBasicCredentials = Depends(authenticate)):
     try:
-           # Spremamo zahtjev u MongoDB
+           # Spremamo zahtjev u MongoDB kako biih specificirali usluge po cijeni i nazivu usluge pojedinačno
         collection.insert_one(usluga.dict())
         return {"message": "Usluga uspješno dodana!"}
     except Exception as e:
