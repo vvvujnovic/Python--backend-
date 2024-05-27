@@ -15,9 +15,10 @@ def connect_to_mongodb():
 client = connect_to_mongodb()
 
 if client:
-    # Odaberite bazu podataka
+    # Obabran naziv baze podataka u MongoDB
     db = client['uslugebazepodataka']
-    # Naziv kolekcija
+    
+    # Nazivi kolekcija u bazi podataka 
     zahtjevi_collection = db['zahtjevi_za_uslugom']
     usluge_collection = db['usluge']
     ugovor_collection = db['ugovori']  
