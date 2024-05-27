@@ -22,11 +22,16 @@ DELETE : http://127.0.0.1:8000/zahtjevi / {zahtjevi_id}
 
 POST PUT : http://127.0.0.1:8000/dodaj-ugovor
 
-{   "korisnikEmail": "",
+
+{
+    "ime_prezime": "",
+    "broj_narudžbe": 12345,
+    "naziv_servisa": "",
     "datum_ugovora": "",
-    "stavke": "",
-    "ukupna_cijena": ""
+    "stavke": ""
+
 }
+
 
 POST PUT : http://127.0.0.1:8000/dodaj-uslugu
 
