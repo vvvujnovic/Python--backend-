@@ -20,6 +20,7 @@ GET : http://127.0.0.1:8000/zahtjevi - dohvaćanje zahtjeva
 
 DELETE : http://127.0.0.1:8000/zahtjevi / {zahtjevi_id}
 
+
 POST PUT : http://127.0.0.1:8000/dodaj-ugovor
 
 
@@ -30,7 +31,23 @@ POST PUT : http://127.0.0.1:8000/dodaj-ugovor
     "datum_ugovora": "",
     "stavke": ""
 
+"stavke": [
+        {
+            "naziv_usluge": "",
+            "kolicina": npr 1,
+            "cijena_usluge": ,
+            "datum_dostupnosti_usluge": ""
+        },
+        {
+            "naziv_usluge": "",
+            "kolicina": 1,
+            "cijena_usluge": ,
+            "datum_dostupnosti_usluge": ""
+        }
+    ],
+    "ukupna_cijena": 
 }
+
 
 
 GET : http://127.0.0.1:8000/ugovori - dohvaćanje Ugovora
