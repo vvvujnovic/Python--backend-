@@ -1,15 +1,17 @@
-from fastapi import APIRouter, HTTPException, Depends, Body
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBasicCredentials
-from typing import List, Optional
+from typing import List
 from models import Usluga
 from database import collection  
 from security import authenticate
+from bson import ObjectId
 
 router = APIRouter()
 
 @router.post("/dodaj-uslugu")
 async def dodaj_uslugu(usluga: Usluga, credentials: HTTPBasicCredentials = Depends(authenticate)):
     try:
+           # Spremamo zahtjev u MongoDB
         collection.insert_one(usluga.dict())
         return {"message": "Usluga uspješno dodana!"}
     except Exception as e:

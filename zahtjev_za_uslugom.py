@@ -6,41 +6,14 @@ from pydantic import BaseModel, EmailStr, constr, validator
 from bson import ObjectId
 from database import collection
 from security import authenticate
+from models import Zahtjev, UpdateZahtjev
 
 router = APIRouter()
-
-class Zahtjev(BaseModel):
-    korisnikEmail: EmailStr
-    KategorijaUsluga: constr(min_length=1)
-    vrstaCiscenja: constr(min_length=1)
-    opis: constr(min_length=1)
-    datum: str
-    vrijeme: str
-    komentar: Optional[str] = None  
-
-    @validator("datum")
-    def validate_datum(cls, v):
-        if not re.match(r"\d{4}-\d{2}-\d{2}", v):
-            raise ValueError("Datum nije u formatu YYYY-MM-DD")
-        return v
-
-    @validator("vrijeme")
-    def validate_vrijeme(cls, v):
-        if not re.match(r"\d{2}:\d{2}", v):
-            raise ValueError("Vrijeme nije u formatu HH:MM")
-        return v
-
-class UpdateZahtjev(BaseModel):
-    KategorijaUsluga: Optional[str] = None
-    vrstaCiscenja: Optional[str] = None
-    opis: Optional[str] = None
-    datum: Optional[str] = None
-    vrijeme: Optional[str] = None
 
 @router.post("/dodaj-zahtjev")
 async def dodaj_zahtjev(zahtjev: Zahtjev, credentials: HTTPBasicCredentials = Depends(authenticate)):
     try:
-        # Spremi zahtjev u MongoDB
+        # Spremamo zahtjev u MongoDB
         collection.insert_one(zahtjev.dict())
         return {"message": "Zahtjev uspješno dodan!"}
     except Exception as e:

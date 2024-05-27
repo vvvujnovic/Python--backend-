@@ -11,6 +11,7 @@ router = APIRouter()
 @router.post("/dodaj-ugovor")
 async def dodaj_ugovor(ugovor: Ugovor, credentials: HTTPBasicCredentials = Depends(authenticate)):
     try:
+           # Spremamo zahtjev u MongoDB
         collection.insert_one(ugovor.dict())
         return {"message": "Ugovor uspješno dodan!"}
     except Exception as e:
