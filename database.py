@@ -18,9 +18,10 @@ if client:
     # Odaberite bazu podataka
     db = client['uslugebazepodataka']
     # Naziv kolekcija
-    collection = db['usluge']
+    zahtjevi_collection = db['zahtjevi_za_uslugom']
+    usluge_collection = db['usluge']
     ugovor_collection = db['ugovori']  
-    usluga_collection = db['usluge']  
+  
 
 else:
     collection = None
