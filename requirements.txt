@@ -33,6 +33,9 @@ POST PUT : http://127.0.0.1:8000/dodaj-ugovor
 }
 
 
+GET : http://127.0.0.1:8000/ugovori - dohvaćanje Ugovora
+
+
 POST PUT : http://127.0.0.1:8000/dodaj-uslugu
 
 {   "naziv_usluge": "",

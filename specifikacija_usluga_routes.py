@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBasicCredentials
 from typing import List
 from models import Usluga
-from database import collection  
+from database import collection
 from security import authenticate
 from bson import ObjectId
 
