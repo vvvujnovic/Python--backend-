@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, constr, validator
 from typing import List, Optional
+from datetime import datetime
 import re
 
 class Zahtjev(BaseModel):
@@ -7,21 +8,20 @@ class Zahtjev(BaseModel):
     KategorijaUsluga: constr(min_length=1)
     vrstaCiscenja: constr(min_length=1)
     opis: constr(min_length=1)
-    datum: str
+    datum: datetime
     vrijeme: str
     komentar: Optional[str] = None  
 
-    @validator("datum")
-    def validate_datum(cls, v):
-        if not re.match(r"\d{4}-\d{2}-\d{2}", v):
-            raise ValueError("Datum nije u formatu YYYY-MM-DD")
-        return v
+@validator("datum", pre=True)
+def parse_datum(cls, value):
+        return datetime.strptime(value, "%Y-%m-%d")
 
-    @validator("vrijeme")
-    def validate_vrijeme(cls, v):
+@validator("vrijeme")
+def validate_vrijeme(cls, v):
         if not re.match(r"\d{2}:\d{2}", v):
             raise ValueError("Vrijeme nije u formatu HH:MM")
         return v
+
 
 class Usluga(BaseModel):
     naziv_usluge: str
