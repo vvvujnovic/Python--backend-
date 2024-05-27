@@ -50,15 +50,14 @@ class Ugovor(BaseModel):
     ime_prezime: str
     broj_narudžbe: int
     naziv_servisa: str
-    datum_ugovora: str
+    datum_ugovora: datetime
     stavke: List[Stavka]
     ukupna_cijena: float
 
-    @validator("datum_ugovora")
-    def validate_datum(cls, v):
-        if not re.match(r"\d{4}-\d{2}-\d{2}", v):
-            raise ValueError("Datum nije u formatu YYYY-MM-DD")
-        return v
+@validator("datum_ugovora", pre=True)
+def parse_datum_ugovora(cls, value):
+        return datetime.strptime(value, "%Y-%m-%d")
+
 
 class UpdateZahtjev(BaseModel):
     KategorijaUsluga: Optional[str] = None
