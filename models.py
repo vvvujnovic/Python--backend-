@@ -44,7 +44,13 @@ class Stavka(BaseModel):
     naziv_usluge: str
     kolicina: int
     cijena_usluge: float
-    datum_dostupnosti_usluge: str
+    datum_dostupnosti_usluge: datetime
+
+@validator("datum_dostupnosti_usluge", pre=True)
+def parse_datum_dostupnosti_usluge(cls, value):
+        return datetime.strptime(value, "%Y-%m-%d")
+
+
 
 class Ugovor(BaseModel):
     ime_prezime: str
@@ -66,15 +72,16 @@ class UpdateZahtjev(BaseModel):
     datum: Optional[str] = None
     vrijeme: Optional[str] = None
 
-    @validator("datum")
-    def validate_datum(cls, v):
-        if v is not None and not re.match(r"\d{4}-\d{2}-\d{2}", v):
-            raise ValueError("Datum nije u formatu YYYY-MM-DD")
-        return v
+@validator("datum", pre=True)
+def parse_datum(cls, value):
+        if value is not None:
+            return datetime.strptime(value, "%Y-%m-%d")
+        return value
 
-    @validator("vrijeme")
-    def validate_vrijeme(cls, v):
+@validator("vrijeme")
+def validate_vrijeme(cls, v):
         if v is not None and not re.match(r"\d{2}:\d{2}", v):
             raise ValueError("Vrijeme nije u formatu HH:MM")
         return v
+
 
